@@ -57,7 +57,7 @@ contract BadgeGenerator is ERC1155 {
   }
 
   // Creates a new token type and assigns _initialSupply to minter
-  function createBadge(uint256 _initialSupply, string calldata _metadataUrl) public creatorOnly returns (uint256 _id) {
+  function createBadge(uint256 _initialSupply, string memory _metadataUrl) public creatorOnly returns (uint256 _id) {
     require(badgeCount >= 0, 'invalid badgeCount');
 
     _id = badgeCount++;
