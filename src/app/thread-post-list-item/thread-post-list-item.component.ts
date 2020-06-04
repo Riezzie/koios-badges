@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-thread-post-list-item',
   templateUrl: './thread-post-list-item.component.html',
-  styleUrls: ['./thread-post-list-item.component.css']
+  styleUrls: ['./thread-post-list-item.component.scss']
 })
 export class ThreadPostListItemComponent implements OnInit {
 

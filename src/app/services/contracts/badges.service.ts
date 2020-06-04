@@ -18,7 +18,7 @@ export class BadgesService {
   public badges: Badge[];
 
   constructor(web3: Web3Service) {
-    console.log(`badge services created`)
+    console.log(`badge services created`);
     this.badges = [];
     this.web3 = web3;
     this.contract = web3.getContract(BadgeAbi);

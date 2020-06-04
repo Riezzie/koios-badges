@@ -4,7 +4,7 @@ import { ThreeBoxService } from '../services/three-box.service';
 @Component({
   selector: 'app-thread',
   templateUrl: './thread.component.html',
-  styleUrls: ['./thread.component.css']
+  styleUrls: ['./thread.component.scss']
 })
 export class ThreadComponent implements OnInit {
 

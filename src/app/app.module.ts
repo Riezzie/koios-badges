@@ -20,11 +20,11 @@ import { onAppInit } from './factories/on-app-init.factory';
     ThreadListItemComponent,
     ThreadComponent,
     ThreadPostListComponent,
-    ThreadPostListItemComponent
+    ThreadPostListItemComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     {
