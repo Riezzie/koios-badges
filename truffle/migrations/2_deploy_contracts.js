@@ -1,9 +1,6 @@
-var Generator = artifacts.require("./BadgeGenerator.sol");
+var koiosBadge = artifacts.require("KoiosBadges");
 
 module.exports = function(deployer) {
-  deployer.deploy(Generator)
-    .then(() => Generator.deployed())
-    .then((instance) => {
-      instance.createBadge("test.json")
-    });
+  // TODO set correct url
+  deployer.deploy(koiosBadge, "https://web3assignments.github.io/BC2_Lars/Day_09/ERC721/Tokens/");
 };
