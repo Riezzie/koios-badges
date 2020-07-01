@@ -25,7 +25,10 @@
     "web3": "^1.2.8",
     "zone.js": "~0.10.2",
     "@openzeppelin/contracts": "^3.0.1",
-    "@truffle/hdwallet-provider": "^1.0.35"
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "chai-bignumber": "3.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.7",
