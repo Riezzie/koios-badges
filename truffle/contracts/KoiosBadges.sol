@@ -8,7 +8,7 @@ import "./IERC1155Metadata.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IERC1155.sol";
 
-contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
+contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI, Ownable {
 
   using SafeMath for uint256;
   using Address for address;
@@ -33,10 +33,17 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
 
   string private baseURI;
   uint256 public nonce;
-  address public owner;
 
-  modifier ownerOnly {
-    require(msg.sender == owner, "Only the contract owner can execute action");
+  mapping(address => bool) public creators;
+  mapping(uint256 => address) public tokenCreator;
+
+  modifier creatorOnly() {
+    require(creators[msg.sender], "You are not a creator");
+    _;
+  }
+
+  modifier tokenCreatorOnly(uint256 _id) {
+    require(tokenCreator[_id] == msg.sender, "Only the token creator can access this function");
     _;
   }
 
@@ -45,10 +52,18 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
     owner = msg.sender;
   }
 
-  // Creates a new token type and assings _initialSupply to minter
-  function create(uint256 _initialSupply) public ownerOnly returns(uint256 _id) {
+  function addCreator(address _address) external ownerOnly {
+    creators[_address] = true;
+  }
+
+  function removeCreator(address _address) external ownerOnly {
+    creators[_address] = false;
+  }
+
+  function create(uint256 _initialSupply) public creatorOnly returns(uint256 _id) {
 
     _id = ++nonce;
+    tokenCreator[_id] = msg.sender;
     balances[_id][msg.sender] = _initialSupply;
 
     // Transfer event with mint semantic
@@ -58,7 +73,7 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
   }
 
   // Batch mint tokens. Assign directly to _to[].
-  function mint(uint256 _id, address[] memory _to, uint256[] memory _quantities) public ownerOnly {
+  function mint(uint256 _id, address[] memory _to, uint256[] memory _quantities) public tokenCreatorOnly(_id) {
 
     for (uint256 i = 0; i < _to.length; ++i) {
 
@@ -77,6 +92,10 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
         _doSafeTransferAcceptanceCheck(msg.sender, msg.sender, to, _id, quantity, '');
       }
     }
+  }
+
+  function setBaseURI(string memory _url) public ownerOnly {
+    baseURI = _url;
   }
 
   function uri(uint256 tokenId) public view override returns (string memory) {

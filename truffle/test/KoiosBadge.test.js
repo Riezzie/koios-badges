@@ -25,16 +25,4 @@ contract('KoiosBadge', (accounts) => {
       assert.equal(event._to, accounts[0], 'to is correct');
     })
   });
-
-  describe('indexing', async () => {
-    it('list badges', async () => {
-      // create 3 more badge tokens
-      await contract.create(100);
-      await contract.create(100);
-      await contract.create(100);
-
-      const totalSupply = await contract.nonce;
-      assert.equal(totalSupply, 4);
-    })
-  })
 });
