@@ -80,7 +80,7 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
   }
 
   function uri(uint256 tokenId) public view override returns (string memory) {
-    return string(abi.encodePacked(baseURI, tokenId));
+    return string(abi.encodePacked(baseURI, toString(tokenId)));
   }
 
   /////////////////////////////////////////// ERC1155 //////////////////////////////////////////////
@@ -242,5 +242,28 @@ contract KoiosBadges is IERC1155, ERC165, CommonConstants, ERC1155Metadata_URI {
     // If you want predictable revert reasons consider using low level _to.call() style instead so the revert does not bubble up and you can revert yourself on the ERC1155_BATCH_ACCEPTED test.
     require(ERC1155TokenReceiver(_to).onERC1155BatchReceived(_operator, _from, _ids, _values, _data) == ERC1155_BATCH_ACCEPTED, "contract returned an unknown value from onERC1155BatchReceived");
   }
+
+  function toString(uint256 value) internal pure returns (string memory) {
+        // Inspired by OraclizeAPI's implementation - MIT licence
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        uint256 index = digits - 1;
+        temp = value;
+        while (temp != 0) {
+            buffer[index--] = byte(uint8(48 + temp % 10));
+            temp /= 10;
+        }
+        return string(buffer);
+    }
 }
 
